@@ -23,7 +23,7 @@ group by bowler having count(ball) > 600
 order by round(sum(total_runs)/round(count(ball)/6) ,2) LIMIT 10;
 
 
-----------3. Most no bowls bowled in IPL-------
+----------3. More no bowls bowled in IPL-------
 
 select bowler, sum(total_runs) as runs_conceeded_in_pp ,round(count(ball)/6)  as overs_in_pp , round(sum(total_runs)/round(count(ball)/6) ,2) as economy
 from murali_ipl.deliveries_raw 
