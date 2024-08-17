@@ -31,6 +31,13 @@ where over_no in (0,1,2,3,4,5)
 group by bowler having count(ball) > 600
 order by round(sum(total_runs)/round(count(ball)/6) ,2) LIMIT 10 ;
 
+---------4. No of wins by each team in the IPL----
+
+select winner,count(*) as no_of_wins from murali_ipl.matches_raw 
+group by winner order by count(*) desc ;
+
+
+
 
 
 
