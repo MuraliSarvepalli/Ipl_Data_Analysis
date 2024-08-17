@@ -3,7 +3,7 @@ with batsman_runs as (
 select sum(batsman_runs) as runs,batter,match_id from murali_ipl.deliveries_raw 
 group by 2,3),
 rno as(
-select *,row_number() over (partition by batter order by match_id)  as rn from batsman_runs --where batter = 'V Kohli'
+select *,row_number() over (partition by batter order by match_id)  as rn from batsman_runs 
 ),
 consec as (
 select a.runs,a.batter,a.match_id, a.runs as current_match_score, b.runs as previous_match1_score, c.runs as previous_match2_score from rno a 
