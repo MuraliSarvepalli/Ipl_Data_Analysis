@@ -61,6 +61,12 @@ and a.batting_team = b.winner  where a.rn = 1
 group by batter)a group by batter order by no_of_not_outs_in_chasing desc;
 
 
+------6. Top 5 teams who has defended less than or equal to 150---
+
+select winner,count(winner)  as count_of_defended_150 from murali_ipl.matches_raw where safe_cast(target_runs as int64)<=150
+and result = 'runs'
+group by 1 order by 2 desc limit 5
+
 
 
 
