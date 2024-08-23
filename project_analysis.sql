@@ -67,6 +67,29 @@ select winner,count(winner)  as count_of_defended_150 from murali_ipl.matches_ra
 and result = 'runs'
 group by 1 order by 2 desc limit 5
 
+-----7. Top 5 batsmen with best averages in knockout stages of IPL(Play off's ,finals) with alteast 5 innings played in knock out stages
+
+with cte as (
+  select player_dismissed as batter , count(1) as no_of_outs from 
+murali_ipl.deliveries_raw a
+inner join murali_ipl.matches_raw b 
+on a.match_id = b.id where player_dismissed <> 'NA' and b.match_type <> 'League'
+group by player_dismissed
+) ,
+cte2 as (
+select a.batter,round(sum(batsman_runs)/max(no_of_outs),2) as average_in_knockouts  from cte a inner join 
+murali_ipl.deliveries_raw b on a.batter = b.batter
+inner join murali_ipl.matches_raw c on b.match_id = c.id
+where c.match_type<> 'League' and a.no_of_outs > 5
+group by batter)
+select a.batter , average_in_knockouts from cte2 a inner join (
+  select batter,count(*) as no_of_knock_out_inngs from(
+  select batter , match_id, sum(batsman_runs)  from murali_ipl.deliveries_raw a 
+  inner join murali_ipl.matches_raw b on a.match_id= b.id and b.match_type <> 'League'
+  group by batter,match_id) group by batter
+) b on a.batter = b.batter where b.no_of_knock_out_inngs >5
+order by average_in_knockouts desc limit 5
+
 
 
 
